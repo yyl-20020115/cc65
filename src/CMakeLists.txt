@@ -4,6 +4,8 @@ project(CC65 C)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+option(USE_BIN_DIRECTORY "Use bin directory" OFF)
+
 include_directories(. ./common)
 # Add source files
 set(AR65_SOURCES 
@@ -639,7 +641,7 @@ if(MSVC)
 	target_compile_options(sp65 PRIVATE -D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-
+if(USE_BIN_DIRECTORY)
 set_target_properties(ar65 PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
@@ -679,14 +681,14 @@ set_target_properties(sim65 PROPERTIES
 set_target_properties(sp65 PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
-
+endif()
 target_link_libraries(ar65 PRIVATE common)
 target_link_libraries(ca65 PRIVATE common)
 target_link_libraries(cc65 PRIVATE common)
 include(CheckLibraryExists)
 check_library_exists(m ceil "" MATH_FOUND)
 if(MATH_FOUND)
-    target_link_libraries(cc65 m)
+    target_link_libraries(cc65 PRIVATE m)
 endif()
 target_link_libraries(chrcvt65 PRIVATE common)
 target_link_libraries(cl65 PRIVATE common)
