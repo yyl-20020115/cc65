@@ -9,4 +9,6 @@
 /cc65.zip
 /util/atari/*.exe
 /util/gamate/*.exe
-
+[Bb]uild/
+*.un~
+*.txt~
